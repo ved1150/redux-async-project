@@ -1,14 +1,24 @@
 import classes from './CartButton.module.css';
 
-import { useDispatch } from 'react-redux';
-import { cartBtnActions } from '../../store/CartReducer'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { cartActions } from '../../store/CartReducer'; 
 const CartButton = (props) => {
-
+ 
   const dispatch = useDispatch()
+  const cartQuantity = useSelector(state => state.cart.listOfProduct.length)
+   
+  function cartBtnClick(){
+    if(cartQuantity === 0){
+       alert("You don't have any item in the cart")
+    }
+    else{
+      dispatch(cartActions.togglecart())
+    }
+  }
   return (
-    <button className={classes.button} onClick={() => dispatch(cartBtnActions.togglecart())} >
+    <button className={classes.button} onClick={() => cartBtnClick()} >
       <span>My Cart</span>
-      <span className={classes.badge}>1</span>
+      <span className={classes.badge}>{cartQuantity}</span>
     </button>
   );
 };
